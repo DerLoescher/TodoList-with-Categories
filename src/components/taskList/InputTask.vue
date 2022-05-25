@@ -35,10 +35,9 @@ export default {
   padding: 10px;
   display: flex;
   justify-content: space-evenly;
-  background: linear-gradient(180deg, #dacfcf 0%, rgba(255, 255, 255, 0) 100%),
-    linear-gradient(180deg, #c947c2 0%, rgba(255, 255, 255, 0) 100%), #48c4e6;
+  background: #666;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 30px;
+  border-radius: 5px;
 }
 @media screen and (max-width: 550px) {
   .task_input {
@@ -46,22 +45,29 @@ export default {
   }
 }
 .input_data {
+  background: #212121;
+  border-color: black;
   height: 30px;
   width: 50%;
   display: flex;
   flex-direction: column;
 }
+.input_data:focus {
+  outline: none;
+  border: 1px rgb(37, 106, 218) solid;
+}
 .add_button {
   height: 100%;
   width: 20%;
   background: transparent;
-  border-color: #ff207c;
+  border-color: black;
   border-radius: 20px;
 }
 .add_button:hover {
-  background: #ff207c;
+  background: rgb(142, 142, 142);
+  cursor: pointer;
 }
 .add_button:active {
-  border-color: #48c4e6;
+  border-color: white;
 }
 </style>

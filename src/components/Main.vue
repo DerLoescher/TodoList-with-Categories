@@ -1,10 +1,7 @@
 <template>
   <ModalWindow v-if="modalIsSeen" @closeModal="closeModal()" />
   <div class="main_wrapper">
-    <CategoriesTab
-      @openModal="this.modalIsSeen = !this.modalIsSeen"
-      @categorySelected="categorySelected"
-    />
+    <CategoriesTab @openModal="this.modalIsSeen = !this.modalIsSeen" />
     <WorkSpace />
   </div>
 </template>
@@ -25,9 +22,6 @@ export default {
   methods: {
     closeModal() {
       this.modalIsSeen = !this.modalIsSeen;
-    },
-    categorySelected(category) {
-      console.log(category);
     },
   },
 };

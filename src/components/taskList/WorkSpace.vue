@@ -2,7 +2,10 @@
   <section class="work_space">
     <InputTask @newTaskHasBeenAdded="pushTaskIntoList" />
     <div>
-      <TaskList :tasks="this.taskPool" @taskHasBeenDeleted="deleteTask" />
+      <TaskList
+        :tasks="this.$store.state.selectedCategory.tasks"
+        @taskHasBeenDeleted="deleteTask"
+      />
     </div>
   </section>
 </template>
@@ -13,10 +16,7 @@ import TaskList from "./TaskList.vue";
 export default {
   name: "WorkSpace",
   data() {
-    return {
-      taskPool: [],
-      taskNumber: 1,
-    };
+    return {};
   },
   components: {
     InputTask,
@@ -24,15 +24,15 @@ export default {
   },
   methods: {
     pushTaskIntoList(taskName) {
-      this.taskPool.push({
-        name: taskName,
-        isDone: false,
-        idx: this.taskNumber,
-      });
-      this.taskNumber++;
+      this.$store.commit("pushTaskIntoList", taskName);
     },
     deleteTask(task) {
       this.taskPool = this.taskPool.filter((t) => t !== task);
+    },
+  },
+  computed: {
+    taskPool() {
+      return [];
     },
   },
 };
@@ -40,10 +40,11 @@ export default {
 
 <style scoped>
 .work_space {
-  width: 80%;
+  width: 100%;
   padding: 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #212121;
 }
 </style>

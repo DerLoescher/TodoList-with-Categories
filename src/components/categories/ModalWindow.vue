@@ -28,7 +28,7 @@ export default {
   name: "ModalWindow",
   data() {
     return {
-      newCategory: {},
+      newCategory: { tasks: [], taskNumeration: 1 },
     };
   },
   methods: {
@@ -62,9 +62,10 @@ export default {
 .modal_wrapper {
   width: 40%;
   height: 40%;
-  background: white;
+  background: #282828;
   padding: 20px;
   box-shadow: 2px 2px 20px 1px;
+  color: #282828;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -75,5 +76,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+.send_btn {
+  color: #282828;
 }
 </style>

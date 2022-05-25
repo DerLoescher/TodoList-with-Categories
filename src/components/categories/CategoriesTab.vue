@@ -1,29 +1,26 @@
 <template>
   <header class="tab_header">
     <nav>
-      <ul>
-        <button @click="this.$emit('openModal')">Create a new category</button>
+      <ul class="category_wrapper">
+        <button class="new_cat_btn" @click="this.$emit('openModal')">
+          Create a new category
+        </button>
         <li
           class="category"
+          :class="{
+            category_active: this.$store.state.selectedCategory == category,
+          }"
           v-for="(category, index) in this.$store.state.categories"
           :key="`${category}_${index}`"
-          @click="this.$emit('categorySelected', category)"
+          @click="this.$store.commit('categorySelected', category)"
         >
-          <span :style="{ color: `${category.color}` }">Color</span>
+          <span
+            :style="{ background: `${category.color}` }"
+            class="circle"
+          ></span>
           <span>{{ category.name }}</span>
         </li>
-        <!-- <form>
-          <div
-            class="form_radio_btn"
-            v-for="(category, index) in this.$store.state.categories"
-            :key="`${category}_${index}`"
-          >
-            <input v-model="this.selectedCategory" type="radio" name="radio" />
-            <label for="radio">{{ category.name }}{{ category.color }}</label>
-          </div>
-        </form> -->
       </ul>
-      {{ this.selectedCategory }}
     </nav>
   </header>
 </template>
@@ -36,26 +33,43 @@ export default {
       selectedCategory: null,
     };
   },
-  methods: {
-    addCategory() {
-      this.categories.push(this.categoryName);
-      this.categoryName = "";
-    },
+  created() {
+    this.$store.commit("newCategoryWasCreated", {
+      tasks: [],
+      name: "main",
+      color: "white",
+      taskNumeration: 1,
+    });
   },
 };
 </script>
 
 <style scoped>
 .tab_header {
-  background: linear-gradient(180deg, #dacfcf 0%, rgba(255, 255, 255, 0) 100%),
-    linear-gradient(180deg, #c947c2 0%, rgba(255, 255, 255, 0) 100%), #48c4e6;
+  background: #282828;
+  color: white;
   box-shadow: 0px 10px 10px rgba(1, 1, 1, 0.25);
   height: 100vh;
-  width: 20%;
-  padding: 10px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.category_wrapper {
+  width: 100%;
+}
+.new_cat_btn {
+  border-radius: 5px;
+  height: 30px;
+  width: 100%;
+  color: #282828;
+}
+.category {
+  height: 60px;
+  width: 250px;
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
 }
 .category:hover {
   font-weight: bolder;
@@ -63,5 +77,15 @@ export default {
 }
 .category:active {
   opacity: 60%;
+}
+.category_active {
+  background: #666;
+}
+.circle {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 20px;
 }
 </style>
