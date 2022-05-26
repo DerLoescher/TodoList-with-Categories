@@ -2,23 +2,30 @@
   <div class="shadow_back">
     <div class="click_away" @click="this.$emit('closeModal')"></div>
     <div class="modal_wrapper">
-      <input type="text" v-model="newCategory.name" autofocus />
       <button @click="this.$emit('closeModal')" class="close_button">
         close
       </button>
-      <form>
-        <div class="radio_btns">
-          <div v-for="color in this.$store.state.colors" :key="color">
-            <input
-              type="radio"
-              v-bind:value="color"
-              v-model="newCategory.color"
-            />
-            <label>{{ color }}</label>
+      <div class="modal_form">
+        <input
+          class="input_task"
+          type="text"
+          v-model="newCategory.name"
+          autofocus
+        />
+        <form>
+          <div class="radio_btns">
+            <div v-for="color in this.$store.state.colors" :key="color">
+              <input
+                type="radio"
+                v-bind:value="color"
+                v-model="newCategory.color"
+              />
+              <label>{{ color }}</label>
+            </div>
           </div>
-        </div>
-      </form>
-      <button class="send_btn" @click="addNewCategory">создать</button>
+        </form>
+        <button class="send_btn" @click="addNewCategory">создать</button>
+      </div>
     </div>
   </div>
 </template>
@@ -66,10 +73,25 @@ export default {
   padding: 20px;
   box-shadow: 2px 2px 20px 1px;
   color: #282828;
+}
+.modal_form {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
+}
+.close_button {
+  color: black;
+  position: relative;
+  top: -10px;
+  left: 90%;
+}
+.input_task {
+  color: black;
+  height: 70%;
+  width: 90%;
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 .radio_btns {
   width: 100%;

@@ -72,11 +72,11 @@ export default {
   padding-left: 20px;
 }
 .category:hover {
-  font-weight: bolder;
+  background: rgb(139, 139, 139);
   cursor: pointer;
 }
 .category:active {
-  opacity: 60%;
+  background: #666;
 }
 .category_active {
   background: #666;
