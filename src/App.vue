@@ -20,5 +20,6 @@ export default {
   list-style: none;
   box-sizing: border-box;
   color: white;
+  font: Bebas Neue;
 }
 </style>

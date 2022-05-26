@@ -1,5 +1,20 @@
 <template>
   <section class="work_space">
+    <div class="category_settings">
+      <h1>{{ this.$store.state.selectedCategory.name }}</h1>
+      <div class="opts_btns">
+        <button
+          class="cat_opts_btn"
+          v-if="this.$store.state.selectedCategory.color !== 'white'"
+          @click="this.$store.commit('deleteCategory')"
+        >
+          delete category
+        </button>
+        <button class="cat_opts_btn" @click="this.$store.commit('clearTasks')">
+          clear tasks
+        </button>
+      </div>
+    </div>
     <InputTask @newTaskHasBeenAdded="pushTaskIntoList" />
     <div>
       <TaskList
@@ -27,7 +42,7 @@ export default {
       this.$store.commit("pushTaskIntoList", taskName);
     },
     deleteTask(task) {
-      this.taskPool = this.taskPool.filter((t) => t !== task);
+      this.$store.commit("taskHasBeenDeleted", task);
     },
   },
   computed: {
@@ -41,10 +56,27 @@ export default {
 <style scoped>
 .work_space {
   width: 100%;
-  padding: 10%;
+  padding: 0 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
   background: #212121;
+}
+.category_settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 100px;
+}
+.cat_opts_btn {
+  height: 20px;
+  width: 100px;
+  color: black;
+}
+.opts_btns {
+  width: 250px;
+  display: flex;
+  justify-content: space-evenly;
 }
 </style>

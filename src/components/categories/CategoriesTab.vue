@@ -36,7 +36,7 @@ export default {
   created() {
     this.$store.commit("newCategoryWasCreated", {
       tasks: [],
-      name: "main",
+      name: "General",
       color: "white",
       taskNumeration: 1,
     });

@@ -32,6 +32,22 @@ const store = createStore({
       });
       +state.selectedCategory.taskNumeration++;
     },
+    taskHasBeenDeleted(state, task) {
+      state.selectedCategory.tasks = state.selectedCategory.tasks.filter(
+        (t) => t !== task
+      );
+    },
+    deleteCategory(state) {
+      state.categories = state.categories.filter(
+        (item) => item !== state.selectedCategory
+      );
+      state.selectedCategory = state.categories.find(
+        (item) => item.color == "white"
+      );
+    },
+    clearTasks(state) {
+      state.selectedCategory.tasks = [];
+    },
   },
   actions: {},
 });
