@@ -1,5 +1,8 @@
 <template>
   <header class="tab_header">
+    {{ this.$store.state.categories }}
+    <br />
+    {{ this.$store.state.selectedCategory }}
     <nav>
       <ul class="category_wrapper">
         <button class="new_cat_btn" @click="this.$emit('openModal')">
@@ -10,8 +13,8 @@
           :class="{
             category_active: this.$store.state.selectedCategory == category,
           }"
-          v-for="(category, index) in this.$store.state.categories"
-          :key="`${category}_${index}`"
+          v-for="category in this.$store.state.categories"
+          :key="category"
           @click="this.$store.commit('categorySelected', category)"
         >
           <span
@@ -29,17 +32,10 @@
 export default {
   name: "CategoriesTab",
   data() {
-    return {
-      selectedCategory: null,
-    };
+    return {};
   },
   created() {
-    this.$store.commit("newCategoryWasCreated", {
-      tasks: [],
-      name: "General",
-      color: "white",
-      taskNumeration: 1,
-    });
+    this.$store.dispatch("getCategories");
   },
 };
 </script>

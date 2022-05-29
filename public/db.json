@@ -1,0 +1,30 @@
+{
+  "categories": [
+    {
+      "name": "General",
+      "color": "white",
+      "id": 1
+    },
+    {
+      "name": "12321",
+      "color": "lightblue",
+      "id": 2
+    },
+    {
+      "name": "123123",
+      "color": "blue",
+      "id": 3
+    },
+    {
+      "name": "13123",
+      "color": "yellow",
+      "id": 4
+    },
+    {
+      "name": "123123213",
+      "color": "blue",
+      "id": 5
+    }
+  ],
+  "tasks": []
+}

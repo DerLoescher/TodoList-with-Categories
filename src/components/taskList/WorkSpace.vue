@@ -6,7 +6,7 @@
         <button
           class="cat_opts_btn"
           v-if="this.$store.state.selectedCategory.color !== 'white'"
-          @click="this.$store.commit('deleteCategory')"
+          @click="this.$store.dispatch('delCategory')"
         >
           delete category
         </button>
@@ -27,6 +27,7 @@
 <script>
 import InputTask from "./InputTask.vue";
 import TaskList from "./TaskList.vue";
+import Api from "../../api";
 
 export default {
   name: "WorkSpace",
@@ -38,8 +39,15 @@ export default {
     TaskList,
   },
   methods: {
-    pushTaskIntoList(taskName) {
-      this.$store.commit("pushTaskIntoList", taskName);
+    async pushTaskIntoList(taskName) {
+      await Api.postTask({
+        name: taskName,
+        isDone: false,
+      });
+      this.$store.commit("pushTaskIntoList", {
+        name: taskName,
+        isDone: false,
+      });
     },
     deleteTask(task) {
       this.$store.commit("taskHasBeenDeleted", task);

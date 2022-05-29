@@ -1,9 +1,11 @@
 import { createStore } from "vuex";
+import Api from "./api";
 
 const store = createStore({
   state() {
     return {
       categories: [],
+      tasks: [],
       selectedCategory: {},
       colors: [
         "red",
@@ -17,19 +19,16 @@ const store = createStore({
     };
   },
   mutations: {
-    newCategoryWasCreated(state, category) {
-      state.categories.push(category);
-      state.selectedCategory = category;
+    newCategoryWasCreated(state, response, category) {
+      if (199 < response < 300) {
+        state.categories.push(category);
+      }
     },
     categorySelected(state, category) {
       state.selectedCategory = category;
     },
-    pushTaskIntoList(state, taskName) {
-      state.selectedCategory.tasks.push({
-        name: taskName,
-        isDone: false,
-        idx: +state.selectedCategory.taskNumeration,
-      });
+    pushTaskIntoList(state, task) {
+      state.selectedCategory.tasks.push(task);
       +state.selectedCategory.taskNumeration++;
     },
     taskHasBeenDeleted(state, task) {
@@ -37,19 +36,38 @@ const store = createStore({
         (t) => t !== task
       );
     },
-    deleteCategory(state) {
-      state.categories = state.categories.filter(
-        (item) => item !== state.selectedCategory
-      );
-      state.selectedCategory = state.categories.find(
-        (item) => item.color == "white"
-      );
+    deleteCategory(state, response) {
+      if (199 < response < 300) {
+        state.categories = state.categories.filter(
+          (item) => item !== state.selectedCategory
+        );
+      }
     },
     clearTasks(state) {
       state.selectedCategory.tasks = [];
     },
+    setCategories(state, data) {
+      state.categories = data;
+    },
   },
-  actions: {},
+  actions: {
+    async getCategories({ commit }) {
+      commit("setCategories", await Api.getCategories());
+    },
+    async addNewCategory({ commit }, newCategory) {
+      commit(
+        "newCategoryWasCreated",
+        await Api.postCategory(newCategory),
+        newCategory
+      );
+    },
+    async delCategory({ commit }) {
+      commit(
+        "deleteCategory",
+        await Api.deleteCategory(this.state.selectedCategory.id)
+      );
+    },
+  },
 });
 
 export default store;

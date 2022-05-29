@@ -35,12 +35,12 @@ export default {
   name: "ModalWindow",
   data() {
     return {
-      newCategory: { tasks: [], taskNumeration: 1 },
+      newCategory: {},
     };
   },
   methods: {
     addNewCategory() {
-      this.$store.commit("newCategoryWasCreated", this.newCategory);
+      this.$store.dispatch("addNewCategory", this.newCategory);
       this.newCategory = null;
       this.$emit("closeModal");
     },
