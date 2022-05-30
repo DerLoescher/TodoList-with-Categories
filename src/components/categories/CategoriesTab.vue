@@ -1,10 +1,5 @@
 <template>
   <header class="tab_header">
-    {{ this.$store.state.categories }}
-    <button
-      class="new_cat_btn"
-      @click="this.$store.commit('categorySelectedByDefault')"
-    ></button>
     <nav>
       <ul class="category_wrapper">
         <button class="new_cat_btn" @click="this.$emit('openModal')">

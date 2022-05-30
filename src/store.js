@@ -25,10 +25,10 @@ const store = createStore({
     },
     newCategoryWasCreated(state, response) {
       if (199 < response.status < 300) {
-        console.log(response.status);
         state.categories.push(response.data);
-        // это не работает,
-        // раз обновляется страница и просто вызывается гет запрос
+        state.selectedCategory = state.categories.find(
+          (item) => item.id == response.data.id
+        );
       }
     },
     categoryHasBeenDeleted(state, response) {
@@ -36,13 +36,11 @@ const store = createStore({
         state.categories = state.categories.filter(
           (item) => item !== state.selectedCategory
         );
+        state.selectedCategory = state.categories[0];
       }
     },
     categorySelected(state, category) {
       state.selectedCategory = category;
-    },
-    categorySelectedByDefault(state) {
-      state.selectedCategory = state.categories[0];
     },
 
     setTasks(state, data) {
@@ -53,23 +51,25 @@ const store = createStore({
         state.tasks.push(response.data);
       }
     },
-    taskHasBeenDeleted(state, task, response) {
-      if (199 < response.status < 300) {
-        state.tasks = state.tasks.filter((item) => item !== task);
+    taskHasBeenDeleted(state, task, status) {
+      if (199 < status < 300) {
+        state.tasks = state.tasks.filter((item) => item.id !== task.id);
       }
     },
-    taskConditionChanged(state, response, task) {
-      if (199 < response < 300) {
-        task.isDone = !task.isDone;
+    taskConditionChanged(state, response) {
+      if (199 < response.status < 300) {
+        state.tasks.forEach((item) =>
+          item.id == response.data.id
+            ? (item.isDone = response.data.isDone)
+            : false
+        );
       }
     },
 
-    tasksInCategoryCleared(state, response) {
-      if (199 < response < 300) {
-        state.tasks = state.tasks.filter(
-          (item) => item.categoryId !== this.state.selectedCategory.id
-        );
-      }
+    tasksInCategoryCleared(state) {
+      state.tasks = state.tasks.filter(
+        (item) => +item.categoryId !== state.selectedCategory.id
+      );
     },
   },
   actions: {
@@ -99,14 +99,15 @@ const store = createStore({
       commit("taskHasBeenDeleted", task, await Api.deleteTask(task));
     },
     async changeTaskCondition({ commit }, task) {
-      commit("taskConditionChanged", await Api.changeTaskCondition(task));
+      commit("taskConditionChanged", await Api.changeTaskCondition(task), task);
     },
 
     async clearTasksInCategory({ commit }) {
-      commit(
-        "tasksInCategoryCleared",
-        await Api.clearTasksInCategory(this.state.selectedCategory.id)
-      );
+      const tasksId = this.state.tasks
+        .filter((item) => item.categoryId == this.state.selectedCategory.id)
+        .map((item) => (item = item.id));
+      await Api.clearTasksInCategory(tasksId);
+      commit("tasksInCategoryCleared", tasksId);
     },
   },
 });

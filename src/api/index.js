@@ -22,15 +22,20 @@ class Api {
     return response;
   }
   async deleteTask(task) {
-    const response = await axios.delete(`/tasks/${task.id}`);
-    return response;
+    const { status } = await axios.delete(`/tasks/${task.id}`);
+    return status;
   }
   async changeTaskCondition(task) {
-    await axios.patch(`/tasks/${task.id}`, { isDone: !task.isDone });
+    const response = await axios.patch(`/tasks/${task.id}`, {
+      isDone: !task.isDone,
+    });
+    return response;
   }
 
-  async clearTasksInCategory(categoryId) {
-    await axios.delete(`/tasks?categoryId=${categoryId}`);
+  async clearTasksInCategory(tasksId) {
+    tasksId.forEach(async function (taskId) {
+      await axios.delete(`/tasks/${taskId}`);
+    });
   }
 }
 

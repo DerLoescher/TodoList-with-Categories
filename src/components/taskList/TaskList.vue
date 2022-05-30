@@ -1,11 +1,10 @@
 <template>
   <ul class="task_list">
-    <li
-      v-for="(task, idx) in tasks"
-      :key="idx"
-      class="task_box"
-      @click="this.$store.dispatch('changeTaskCondition', task)"
-    >
+    <li v-for="(task, idx) in tasks" :key="idx" class="task_box">
+      <div
+        class="shadow_box"
+        @click="this.$store.dispatch('changeTaskCondition', task)"
+      ></div>
       <div class="task_number">Task #{{ idx + 1 }}</div>
       <div class="task_info">
         <input class="checkbox" type="checkbox" v-model="task.isDone" />
@@ -56,6 +55,12 @@ export default {
   width: 150px;
   height: 100px;
 }
+.shadow_box {
+  position: absolute;
+  width: 150px;
+  height: 100px;
+  z-index: 5;
+}
 .task_box:hover {
   padding: 2px;
   background: black;
@@ -96,6 +101,7 @@ export default {
   width: 30px;
   background: transparent;
   border-color: transparent;
+  z-index: 10;
 }
 .delete_button:hover,
 .delete_button:active {

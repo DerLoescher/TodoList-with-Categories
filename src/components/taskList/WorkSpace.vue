@@ -1,6 +1,5 @@
 <template>
   <section class="work_space">
-    {{ this.$store.state.tasks }}
     <div class="category_settings">
       <h1>{{ this.$store.state.selectedCategory.name }}</h1>
       <div class="opts_btns">
