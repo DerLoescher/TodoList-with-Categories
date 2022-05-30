@@ -1,30 +1,19 @@
 {
-  "categories": [
+  "posts": [
     {
-      "name": "General",
-      "color": "white",
-      "id": 1
-    },
-    {
-      "name": "12321",
-      "color": "lightblue",
-      "id": 2
-    },
-    {
-      "name": "123123",
-      "color": "blue",
-      "id": 3
-    },
-    {
-      "name": "13123",
-      "color": "yellow",
-      "id": 4
-    },
-    {
-      "name": "123123213",
-      "color": "blue",
-      "id": 5
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
     }
   ],
-  "tasks": []
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
 }

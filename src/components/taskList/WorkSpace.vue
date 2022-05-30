@@ -1,5 +1,6 @@
 <template>
   <section class="work_space">
+    {{ this.$store.state.tasks }}
     <div class="category_settings">
       <h1>{{ this.$store.state.selectedCategory.name }}</h1>
       <div class="opts_btns">
@@ -10,24 +11,23 @@
         >
           delete category
         </button>
-        <button class="cat_opts_btn" @click="this.$store.commit('clearTasks')">
+        <button
+          class="cat_opts_btn"
+          @click="this.$store.dispatch('clearTasksInCategory')"
+        >
           clear tasks
         </button>
       </div>
     </div>
     <InputTask @newTaskHasBeenAdded="pushTaskIntoList" />
     <div>
-      <TaskList
-        :tasks="this.$store.state.selectedCategory.tasks"
-        @taskHasBeenDeleted="deleteTask"
-      />
+      <TaskList :tasks="selectedTasks" />
     </div>
   </section>
 </template>
 <script>
 import InputTask from "./InputTask.vue";
 import TaskList from "./TaskList.vue";
-import Api from "../../api";
 
 export default {
   name: "WorkSpace",
@@ -39,23 +39,19 @@ export default {
     TaskList,
   },
   methods: {
-    async pushTaskIntoList(taskName) {
-      await Api.postTask({
+    pushTaskIntoList(taskName) {
+      this.$store.dispatch("addNewTask", {
         name: taskName,
         isDone: false,
       });
-      this.$store.commit("pushTaskIntoList", {
-        name: taskName,
-        isDone: false,
-      });
-    },
-    deleteTask(task) {
-      this.$store.commit("taskHasBeenDeleted", task);
     },
   },
   computed: {
-    taskPool() {
-      return [];
+    selectedTasks() {
+      let tasks = this.$store.state.tasks.filter(
+        (item) => item.categoryId == this.$store.state.selectedCategory.id
+      );
+      return tasks;
     },
   },
 };

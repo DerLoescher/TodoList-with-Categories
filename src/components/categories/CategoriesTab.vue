@@ -1,8 +1,10 @@
 <template>
   <header class="tab_header">
     {{ this.$store.state.categories }}
-    <br />
-    {{ this.$store.state.selectedCategory }}
+    <button
+      class="new_cat_btn"
+      @click="this.$store.commit('categorySelectedByDefault')"
+    ></button>
     <nav>
       <ul class="category_wrapper">
         <button class="new_cat_btn" @click="this.$emit('openModal')">
@@ -34,8 +36,9 @@ export default {
   data() {
     return {};
   },
-  created() {
+  beforeCreate() {
     this.$store.dispatch("getCategories");
+    this.$store.dispatch("getTasks");
   },
 };
 </script>

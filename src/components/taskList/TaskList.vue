@@ -1,12 +1,12 @@
 <template>
   <ul class="task_list">
     <li
-      v-for="task in tasks"
-      :key="task"
+      v-for="(task, idx) in tasks"
+      :key="idx"
       class="task_box"
-      @click="task.isDone = !task.isDone"
+      @click="this.$store.dispatch('changeTaskCondition', task)"
     >
-      <div class="task_number">Task #{{ task.idx }}</div>
+      <div class="task_number">Task #{{ idx + 1 }}</div>
       <div class="task_info">
         <input class="checkbox" type="checkbox" v-model="task.isDone" />
         <span :class="{ task_is_done: task.isDone }" class="task_name">{{
@@ -14,7 +14,7 @@
         }}</span>
         <button
           class="delete_button"
-          @click="this.$emit('taskHasBeenDeleted', task)"
+          @click="this.$store.dispatch('delTask', task)"
         >
           <img class="delete_svg" src="../../assets/delete.svg" alt="X" />
         </button>
