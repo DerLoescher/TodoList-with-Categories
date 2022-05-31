@@ -1,5 +1,5 @@
 <template>
-  <ModalWindow v-if="modalIsSeen" @closeModal="closeModal()" />
+  <ModalWindow v-if="modalIsSeen" @closeModal="closeModal()" class="modal" />
   <div class="main_wrapper">
     <CategoriesTab @openModal="this.modalIsSeen = !this.modalIsSeen" />
     <WorkSpace />
@@ -28,6 +28,9 @@ export default {
 </script>
 
 <style scoped>
+.modal {
+  z-index: 10;
+}
 .main_wrapper {
   display: flex;
 }

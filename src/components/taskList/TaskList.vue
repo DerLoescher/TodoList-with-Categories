@@ -101,7 +101,7 @@ export default {
   width: 30px;
   background: transparent;
   border-color: transparent;
-  z-index: 10;
+  z-index: 5;
 }
 .delete_button:hover,
 .delete_button:active {
