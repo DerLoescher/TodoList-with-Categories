@@ -36,7 +36,7 @@ const store = createStore({
         state.categories = state.categories.filter(
           (item) => item !== state.selectedCategory
         );
-        state.selectedCategory = state.categories[0];
+        state.selectedCategory = state.categories[state.categories.length - 1];
       }
     },
     categorySelected(state, category) {

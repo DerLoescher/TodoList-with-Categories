@@ -12,19 +12,27 @@
           v-model="newCategory.name"
           autofocus
         />
+        <span v-if="emptyFields" class="empty_message"
+          >add the name and color of the new category</span
+        >
         <form>
           <div class="radio_btns">
-            <div v-for="color in this.$store.state.colors" :key="color">
+            <div
+              v-for="color in this.$store.state.colors"
+              :key="color"
+              class="color_radio"
+            >
               <input
                 type="radio"
                 v-bind:value="color"
                 v-model="newCategory.color"
+                class="color_radio_button"
               />
-              <label>{{ color }}</label>
+              <label class="color_radio_label">{{ color }}</label>
             </div>
           </div>
         </form>
-        <button class="send_btn" @click="addNewCategory">создать</button>
+        <button class="send_btn" @click="addNewCategory">create</button>
       </div>
     </div>
   </div>
@@ -35,14 +43,22 @@ export default {
   name: "ModalWindow",
   data() {
     return {
-      newCategory: {},
+      newCategory: {
+        name: "",
+        color: "",
+      },
+      emptyFields: false,
     };
   },
   methods: {
     addNewCategory() {
-      this.$store.dispatch("addNewCategory", this.newCategory);
-      this.newCategory = null;
-      this.$emit("closeModal");
+      if (this.newCategory.name !== "" && this.newCategory.color !== "") {
+        this.$store.dispatch("addNewCategory", this.newCategory);
+        this.newCategory = null;
+        this.$emit("closeModal");
+      } else {
+        this.emptyFields = true;
+      }
     },
   },
 };
@@ -93,13 +109,45 @@ export default {
   text-align: center;
   margin-bottom: 20px;
 }
+.empty_message {
+  color: grey;
+  margin-top: -18px;
+}
 .radio_btns {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-bottom: 10px;
+}
+.color_radio {
+  margin: 3px;
+  width: 100px;
+  height: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.color_radio_button {
+  height: 20px;
+  width: 20px;
+}
+.color_radio_label {
+  font-size: 20px;
 }
 .send_btn {
-  color: #282828;
+  font-size: 20px;
+  color: white;
+  width: 100px;
+  height: 30px;
+  background: transparent;
+  border-color: black;
+  border-radius: 20px;
+}
+.send_btn:hover {
+  background: rgb(142, 142, 142);
+  cursor: pointer;
+}
+.send_btn:active {
+  border-color: white;
 }
 </style>
