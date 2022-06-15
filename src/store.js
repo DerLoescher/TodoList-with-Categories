@@ -6,7 +6,6 @@ const store = createStore({
     return {
       categories: [],
       tasks: [],
-      selectedCategory: {},
       colors: [
         "red",
         "orange",
@@ -21,26 +20,18 @@ const store = createStore({
   mutations: {
     setCategories(state, data) {
       state.categories = data;
-      state.selectedCategory = state.categories[0];
     },
     newCategoryWasCreated(state, response) {
       if (199 < response.status < 300) {
         state.categories.push(response.data);
-        state.selectedCategory = state.categories.find(
-          (item) => item.id == response.data.id
-        );
       }
     },
-    categoryHasBeenDeleted(state, response) {
-      if (199 < response < 300) {
+    categoryHasBeenDeleted(state, categoryId, status) {
+      if (199 < status < 300) {
         state.categories = state.categories.filter(
-          (item) => item !== state.selectedCategory
+          (item) => item.id !== categoryId
         );
-        state.selectedCategory = state.categories[state.categories.length - 1];
       }
-    },
-    categorySelected(state, category) {
-      state.selectedCategory = category;
     },
 
     setTasks(state, data) {
@@ -66,9 +57,9 @@ const store = createStore({
       }
     },
 
-    tasksInCategoryCleared(state) {
+    tasksInCategoryCleared(state, categoryId) {
       state.tasks = state.tasks.filter(
-        (item) => +item.categoryId !== state.selectedCategory.id
+        (item) => +item.categoryId !== categoryId
       );
     },
   },
@@ -79,21 +70,20 @@ const store = createStore({
     async addNewCategory({ commit }, newCategory) {
       commit("newCategoryWasCreated", await Api.postCategory(newCategory));
     },
-    async delCategory({ commit }) {
+    async delCategory({ commit }, categoryId) {
       commit(
         "categoryHasBeenDeleted",
-        await Api.deleteCategory(this.state.selectedCategory.id)
+        categoryId,
+        await Api.deleteCategory(categoryId)
       );
     },
 
     async getTasks({ commit }) {
       commit("setTasks", await Api.getTasks());
     },
-    async addNewTask({ commit }, task) {
-      commit(
-        "newTaskWasCreated",
-        await Api.postTask(task, this.state.selectedCategory.id)
-      );
+    async addNewTask({ commit }, data) {
+      console.log(data[1]);
+      commit("newTaskWasCreated", await Api.postTask(data[0], data[1]));
     },
     async delTask({ commit }, task) {
       commit("taskHasBeenDeleted", task, await Api.deleteTask(task));
@@ -102,12 +92,12 @@ const store = createStore({
       commit("taskConditionChanged", await Api.changeTaskCondition(task), task);
     },
 
-    async clearTasksInCategory({ commit }) {
+    async clearTasksInCategory({ commit }, categoryId) {
       const tasksId = this.state.tasks
-        .filter((item) => item.categoryId == this.state.selectedCategory.id)
+        .filter((item) => item.categoryId == categoryId)
         .map((item) => (item = item.id));
       await Api.clearTasksInCategory(tasksId);
-      commit("tasksInCategoryCleared", tasksId);
+      commit("tasksInCategoryCleared", categoryId);
     },
   },
 });

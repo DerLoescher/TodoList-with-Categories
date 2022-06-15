@@ -6,12 +6,13 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "serve-json": "json-server --watch ../server/db.json --port 3003"
+    "serve-json": "json-server --watch ./server/db.json --port 3003"
   },
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
+    "vue-router": "^4.0.16",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

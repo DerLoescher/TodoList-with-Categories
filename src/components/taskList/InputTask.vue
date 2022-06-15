@@ -6,6 +6,7 @@
       v-model="taskName"
       @keydown.enter="addNewTask"
       autofocus
+      maxlength="50"
     />
     <button class="add_button" @click="addNewTask">ADD</button>
   </div>
@@ -21,8 +22,10 @@ export default {
   },
   methods: {
     addNewTask() {
-      this.$emit("newTaskHasBeenAdded", this.taskName);
-      this.taskName = "";
+      if (this.taskName !== "") {
+        this.$emit("newTaskHasBeenAdded", this.taskName);
+        this.taskName = "";
+      } else return;
     },
   },
 };

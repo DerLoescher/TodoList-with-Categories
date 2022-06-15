@@ -36,29 +36,21 @@ export default {
   width: 50%;
 }
 .task_list {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   margin-top: 10%;
 }
-@media screen and (max-width: 700px) {
-  .task_list {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-@media screen and (max-width: 450px) {
-  .task_list {
-    grid-template-columns: 1fr;
-  }
-}
 .task_box {
-  width: 150px;
-  height: 100px;
+  width: 100%;
+  height: 50px;
+  margin-bottom: 5px;
 }
 .shadow_box {
-  position: absolute;
-  width: 150px;
-  height: 100px;
+  position: relative;
+  margin-bottom: -50px;
+  width: 100%;
+  height: 50px;
   z-index: 5;
 }
 .task_box:hover {
@@ -68,18 +60,20 @@ export default {
   cursor: pointer;
 }
 .task_number {
+  padding-left: 5px;
   background: white;
   color: black;
   width: 100%;
   height: 30%;
   border-radius: 0px 10px 0px 0px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 .task_info {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  padding: 0 10px 0 10px;
   align-items: center;
   height: 70%;
   background: #666;

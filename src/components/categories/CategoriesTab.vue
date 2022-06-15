@@ -1,25 +1,32 @@
 <template>
   <header class="tab_header">
-    <nav>
-      <ul class="category_wrapper">
+    <nav class="category_wrapper">
+      <ul>
         <button class="new_cat_btn" @click="this.$emit('openModal')">
           Create a new category
         </button>
-        <li
-          class="category"
-          :class="{
-            category_active: this.$store.state.selectedCategory == category,
+        <router-link
+          class="router_link"
+          v-for="category in categories"
+          :key="category.id"
+          :to="{
+            name: 'category.name',
+            params: { id: category.id },
           }"
-          v-for="category in this.$store.state.categories"
-          :key="category"
-          @click="this.$store.commit('categorySelected', category)"
         >
-          <span
-            :style="{ background: `${category.color}` }"
-            class="circle"
-          ></span>
-          <span>{{ category.name }}</span>
-        </li>
+          <li
+            class="category"
+            :class="{
+              category_active: this.$route.params.id == category.id,
+            }"
+          >
+            <span
+              :style="{ background: `${category.color}` }"
+              class="circle"
+            ></span>
+            <span>{{ category.name }}</span>
+          </li></router-link
+        >
       </ul>
     </nav>
   </header>
@@ -30,6 +37,11 @@ export default {
   name: "CategoriesTab",
   data() {
     return {};
+  },
+  computed: {
+    categories() {
+      return this.$store.state.categories;
+    },
   },
   beforeCreate() {
     this.$store.dispatch("getCategories");
@@ -44,10 +56,15 @@ export default {
   color: white;
   box-shadow: 0px 10px 10px rgba(1, 1, 1, 0.25);
   height: 100vh;
-  width: 250px;
+  width: 25vw;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+@media screen and (max-width: 770px) {
+  .tab_header {
+    display: none;
+  }
 }
 .category_wrapper {
   width: 100%;
@@ -58,9 +75,11 @@ export default {
   width: 100%;
   color: #282828;
 }
+.router_link {
+  text-decoration: none;
+}
 .category {
   height: 60px;
-  width: 250px;
   display: flex;
   align-items: center;
   padding-left: 20px;

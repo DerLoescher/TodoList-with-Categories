@@ -10,7 +10,8 @@ class Api {
     return response;
   }
   async deleteCategory(categoryID) {
-    await axios.delete(`/categories/${categoryID}`);
+    const { status } = await axios.delete(`/categories/${categoryID}`);
+    return status;
   }
 
   async getTasks() {

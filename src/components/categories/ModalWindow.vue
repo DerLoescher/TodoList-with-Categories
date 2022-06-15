@@ -56,6 +56,7 @@ export default {
         this.$store.dispatch("addNewCategory", this.newCategory);
         this.newCategory = null;
         this.$emit("closeModal");
+        this.$router.push(`/${this.$store.state.categories.length + 1}`);
       } else {
         this.emptyFields = true;
       }

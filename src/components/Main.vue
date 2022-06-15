@@ -2,14 +2,13 @@
   <ModalWindow v-if="modalIsSeen" @closeModal="closeModal()" class="modal" />
   <div class="main_wrapper">
     <CategoriesTab @openModal="this.modalIsSeen = !this.modalIsSeen" />
-    <WorkSpace />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import ModalWindow from "./categories/ModalWindow.vue";
 import CategoriesTab from "./categories/CategoriesTab.vue";
-import WorkSpace from "./taskList/WorkSpace.vue";
 
 export default {
   name: "TodoMain",
@@ -18,7 +17,7 @@ export default {
       modalIsSeen: false,
     };
   },
-  components: { CategoriesTab, WorkSpace, ModalWindow },
+  components: { CategoriesTab, ModalWindow },
   methods: {
     closeModal() {
       this.modalIsSeen = !this.modalIsSeen;
