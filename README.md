@@ -1,12 +1,13 @@
 # bigtodo
 
-## Project setup
+## Установка пакета npm
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Запуск фейк сервера + запуск проекта
 ```
+npm run serve-json
 npm run serve
 ```
 
