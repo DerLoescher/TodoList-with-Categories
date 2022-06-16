@@ -25,6 +25,19 @@
     </div>
     <InputTask @newTaskHasBeenAdded="pushTaskIntoList" />
     <TaskList :tasks="this.selectedTasks" />
+    <div class="page_nav">
+      <button class="page_btn" v-if="page > 1" @click="page = +page - 1">
+        Назад
+      </button>
+      <button
+        class="page_btn"
+        :class="{ page_btn_forw: page == 1 }"
+        v-if="hasNextPage"
+        @click="page = +page + 1"
+      >
+        Вперед
+      </button>
+    </div>
   </section>
 </template>
 <script>
@@ -34,7 +47,9 @@ import TaskList from "./TaskList.vue";
 export default {
   name: "WorkSpace",
   data() {
-    return {};
+    return {
+      page: 1,
+    };
   },
   components: {
     InputTask,
@@ -65,16 +80,25 @@ export default {
     },
   },
   computed: {
-    selectedTasks() {
-      let tasks = this.$store.state.tasks.filter(
-        (item) => item.categoryId == this.category.id
-      );
-      return tasks;
-    },
     category() {
       return this.$store.state.categories.find(
         (category) => category.id === this.categoryId
       );
+    },
+    startIndex() {
+      return (this.page - 1) * 8;
+    },
+    endIndex() {
+      return this.page * 8;
+    },
+    selectedTasks() {
+      let tasks = this.$store.state.tasks.filter(
+        (item) => item.categoryId == this.category.id
+      );
+      return tasks.slice(this.startIndex, this.endIndex);
+    },
+    hasNextPage() {
+      return this.$store.state.tasks.length > this.endIndex;
     },
   },
 };
@@ -90,7 +114,7 @@ export default {
   background: #212121;
 }
 .burger_button {
-  position: fixed;
+  position: absolute;
   left: 2%;
   top: 2%;
   display: none;
@@ -153,5 +177,22 @@ export default {
     flex-direction: column;
     align-items: center;
   }
+}
+.page_nav {
+  position: absolute;
+  bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 120px;
+}
+.page_btn {
+  border-radius: 7px;
+  width: 50px;
+  height: 30px;
+  background-color: white;
+  color: black;
+}
+.page_btn_forw {
+  margin-left: 70px;
 }
 </style>

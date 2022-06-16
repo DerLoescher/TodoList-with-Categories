@@ -1,5 +1,8 @@
 <template>
-  <header class="tab_header">
+  <header
+    class="tab_header"
+    :class="{ tab_header_uncommon: this.categories.length > 13 }"
+  >
     <nav class="category_wrapper">
       <ul>
         <button class="new_cat_btn" @click="this.$emit('openModal')">
@@ -61,7 +64,9 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-
+.tab_header_uncommon {
+  height: 100%;
+}
 .category_wrapper {
   width: 100%;
 }
@@ -71,18 +76,7 @@ export default {
   width: 100%;
   color: #282828;
 }
-@media screen and (max-width: 770px) {
-  .category_wrapper {
-    padding-top: 70px;
-  }
-  .new_cat_btn {
-    top: 2%;
-    left: 80px;
-    width: 50%;
-    height: 40px;
-    position: absolute;
-  }
-}
+
 .router_link {
   text-decoration: none;
 }
@@ -108,5 +102,17 @@ export default {
   border-radius: 50%;
   display: inline-block;
   margin-right: 20px;
+}
+@media screen and (max-width: 770px) {
+  .category_wrapper {
+    padding-top: 70px;
+  }
+  .new_cat_btn {
+    top: 2%;
+    left: 80px;
+    width: 50%;
+    height: 40px;
+    position: absolute;
+  }
 }
 </style>

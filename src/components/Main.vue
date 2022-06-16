@@ -48,9 +48,10 @@ export default {
 .main_wrapper {
   display: flex;
 }
+
 @media screen and (max-width: 770px) {
   .categories_tab {
-    position: absolute;
+    position: relative;
     display: none;
     width: 50%;
     z-index: 10;

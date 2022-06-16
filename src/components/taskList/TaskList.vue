@@ -39,11 +39,11 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-top: 10%;
+  margin-top: 2%;
 }
 .task_box {
   width: 100%;
-  height: 50px;
+  height: 45px;
   margin-bottom: 5px;
 }
 .shadow_box {
@@ -105,5 +105,12 @@ export default {
 .delete_svg {
   height: 100%;
   width: 100%;
+}
+@media screen and (max-width: 770px) {
+  .task_box {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 8px;
+  }
 }
 </style>
