@@ -11,7 +11,7 @@
           :key="category.id"
           :to="{
             name: 'category.name',
-            params: { id: category.id },
+            params: { id: category.id, slug: category.slug },
           }"
         >
           <li
@@ -61,11 +61,7 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-@media screen and (max-width: 770px) {
-  .tab_header {
-    display: none;
-  }
-}
+
 .category_wrapper {
   width: 100%;
 }
@@ -74,6 +70,18 @@ export default {
   height: 30px;
   width: 100%;
   color: #282828;
+}
+@media screen and (max-width: 770px) {
+  .category_wrapper {
+    padding-top: 70px;
+  }
+  .new_cat_btn {
+    top: 2%;
+    left: 80px;
+    width: 50%;
+    height: 40px;
+    position: absolute;
+  }
 }
 .router_link {
   text-decoration: none;

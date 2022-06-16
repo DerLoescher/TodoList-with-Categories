@@ -3,12 +3,8 @@
     {
       "name": "general",
       "color": "white",
+      "slug": "general",
       "id": 1
-    },
-    {
-      "name": "Daily",
-      "color": "purple",
-      "id": 2
     }
   ],
   "tasks": []

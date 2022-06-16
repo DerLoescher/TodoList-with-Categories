@@ -5,6 +5,7 @@
       class="input_data"
       v-model="taskName"
       @keydown.enter="addNewTask"
+      placeholder="type a task..."
       autofocus
       maxlength="50"
     />

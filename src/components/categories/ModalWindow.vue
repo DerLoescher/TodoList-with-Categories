@@ -3,7 +3,7 @@
     <div class="click_away" @click="this.$emit('closeModal')"></div>
     <div class="modal_wrapper">
       <button @click="this.$emit('closeModal')" class="close_button">
-        close
+        <img class="close_svg" src="../../assets/delete.svg" alt="X" />
       </button>
       <div class="modal_form">
         <input
@@ -11,6 +11,7 @@
           type="text"
           v-model="newCategory.name"
           autofocus
+          maxlength="15"
         />
         <span v-if="emptyFields" class="empty_message"
           >add the name and color of the new category</span
@@ -28,7 +29,11 @@
                 v-model="newCategory.color"
                 class="color_radio_button"
               />
-              <label class="color_radio_label">{{ color }}</label>
+              <label
+                class="color_radio_label"
+                :style="{ 'border-bottom': `5px solid ${color}` }"
+                >{{ color }}</label
+              >
             </div>
           </div>
         </form>
@@ -46,6 +51,7 @@ export default {
       newCategory: {
         name: "",
         color: "",
+        slug: "",
       },
       emptyFields: false,
     };
@@ -53,10 +59,18 @@ export default {
   methods: {
     addNewCategory() {
       if (this.newCategory.name !== "" && this.newCategory.color !== "") {
+        this.newCategory.slug = this.newCategory.name
+          .toLowerCase()
+          .trim()
+          .replace(/[^\w\s-]/g, "")
+          .replace(/[\s_-]+/g, "-")
+          .replace(/^-+|-+$/g, "");
         this.$store.dispatch("addNewCategory", this.newCategory);
-        this.newCategory = null;
         this.$emit("closeModal");
-        this.$router.push(`/${this.$store.state.categories.length + 1}`);
+        this.$router.push(
+          `/${this.$store.state.categories.length + 1}/${this.newCategory.slug}`
+        );
+        this.newCategory = null;
       } else {
         this.emptyFields = true;
       }
@@ -85,7 +99,7 @@ export default {
 }
 .modal_wrapper {
   width: 40%;
-  height: 40%;
+  height: 43%;
   background: #282828;
   padding: 20px;
   box-shadow: 2px 2px 20px 1px;
@@ -99,8 +113,21 @@ export default {
 .close_button {
   color: black;
   position: relative;
-  top: -10px;
-  left: 90%;
+  top: -15px;
+  left: 95%;
+  height: 30px;
+  width: 30px;
+  background: transparent;
+  border-color: transparent;
+}
+.close_button:hover,
+.close_button:active {
+  background: white;
+  border-radius: 20px;
+}
+.close_svg {
+  height: 100%;
+  width: 100%;
 }
 .input_task {
   color: black;
@@ -134,6 +161,7 @@ export default {
 }
 .color_radio_label {
   font-size: 20px;
+  padding-bottom: 22px;
 }
 .send_btn {
   font-size: 20px;
@@ -141,7 +169,7 @@ export default {
   width: 100px;
   height: 30px;
   background: transparent;
-  border-color: black;
+  border-color: rgb(252, 248, 248);
   border-radius: 20px;
 }
 .send_btn:hover {
@@ -150,5 +178,10 @@ export default {
 }
 .send_btn:active {
   border-color: white;
+}
+@media screen and (max-width: 770px) {
+  .modal_wrapper {
+    width: 70%;
+  }
 }
 </style>

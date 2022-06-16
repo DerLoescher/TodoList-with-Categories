@@ -68,9 +68,11 @@ const store = createStore({
       commit("setCategories", await Api.getCategories());
     },
     async addNewCategory({ commit }, newCategory) {
+      console.log(newCategory);
       commit("newCategoryWasCreated", await Api.postCategory(newCategory));
     },
     async delCategory({ commit }, categoryId) {
+      console.log(categoryId);
       commit(
         "categoryHasBeenDeleted",
         categoryId,

@@ -4,7 +4,7 @@ import WorkSpace from "../src/components/taskList/WorkSpace";
 const routes = [
   { path: "/", component: WorkSpace, name: "category.name" },
   {
-    path: "/:id",
+    path: "/:id/:slug",
     component: WorkSpace,
     name: "category.name",
     props: (route) => ({ categoryId: parseInt(route.params.id) }),
