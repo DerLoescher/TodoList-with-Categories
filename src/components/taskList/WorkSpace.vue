@@ -179,8 +179,8 @@ export default {
   }
 }
 .page_nav {
-  position: absolute;
-  bottom: 10px;
+  position: relative;
+  bottom: -10px;
   display: flex;
   justify-content: space-between;
   width: 120px;

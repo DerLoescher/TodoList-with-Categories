@@ -8,9 +8,14 @@
       <div class="task_number">Task #{{ idx + 1 }}</div>
       <div class="task_info">
         <input class="checkbox" type="checkbox" v-model="task.isDone" />
-        <span :class="{ task_is_done: task.isDone }" class="task_name">{{
-          task.name
-        }}</span>
+        <span
+          :class="{
+            task_is_done: task.isDone,
+            long_task_name: task.name.length > 15,
+          }"
+          class="task_name"
+          >{{ task.name }}</span
+        >
         <button
           class="delete_button"
           @click="this.$store.dispatch('delTask', task)"
@@ -86,6 +91,7 @@ export default {
 .task_name {
   font-size: 20px;
 }
+
 .task_is_done {
   text-decoration: line-through;
   color: gray;
@@ -111,6 +117,14 @@ export default {
     width: 100%;
     height: 60px;
     margin-bottom: 8px;
+  }
+  .long_task_name {
+    font-size: 15px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .long_task_name {
+    font-size: 10px;
   }
 }
 </style>
