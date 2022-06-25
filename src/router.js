@@ -2,7 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import WorkSpace from "../src/components/taskList/WorkSpace";
 
 const routes = [
-  { path: "/", component: WorkSpace, name: "category.name" },
+  { path: "/", redirect: "/1/general" },
   {
     path: "/:id/:slug",
     component: WorkSpace,

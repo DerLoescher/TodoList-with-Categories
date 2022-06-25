@@ -99,7 +99,7 @@ export default {
 }
 .modal_wrapper {
   width: 40%;
-  height: 43%;
+  height: 50%;
   background: #282828;
   padding: 20px;
   box-shadow: 2px 2px 20px 1px;
