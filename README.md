@@ -1,5 +1,5 @@
 # bigtodo
-https://todolist-with-categories.herokuapp.com/1/general
+https://todolist-with-categories.herokuapp.com
 ## Установка пакета npm
 ```
 npm install
