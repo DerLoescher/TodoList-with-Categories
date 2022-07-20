@@ -3,6 +3,7 @@
   <div class="main_wrapper">
     <CategoriesTab
       @openModal="openModal"
+      @closeTab="showCategoryTab"
       class="categories_tab"
       :class="{ categories_tab_active: tabIsSeen }"
     />
@@ -51,7 +52,7 @@ export default {
 
 @media screen and (max-width: 770px) {
   .categories_tab {
-    position: relative;
+    position: absolute;
     display: none;
     width: 50%;
     z-index: 10;

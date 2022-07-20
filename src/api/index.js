@@ -33,11 +33,11 @@ class Api {
     return response;
   }
 
-  async clearTasksInCategory(tasksId) {
-    tasksId.forEach(async function (taskId) {
-      await axios.delete(`/tasks/${taskId}`);
-    });
-  }
+  // async clearTasksInCategory(tasksId) {
+  //   tasksId.forEach(async function (taskId) {
+  //     await axios.delete(`/tasks/${taskId}`);
+  //   });
+  // }
 }
 
 export default new Api();

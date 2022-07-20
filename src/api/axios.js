@@ -1,7 +1,7 @@
 import AxiosOrigin from "axios";
 
 const axios = AxiosOrigin.create({
-  baseURL: "http://localhost:3003",
+  baseURL: "https://todolist-with-categories.herokuapp.com/api",
 });
 
 export default axios;

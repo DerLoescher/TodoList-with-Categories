@@ -4,7 +4,7 @@
     :class="{ tab_header_uncommon: this.categories.length > 13 }"
   >
     <nav class="category_wrapper">
-      <ul>
+      <ul style="height: 100%">
         <button class="new_cat_btn" @click="this.$emit('openModal')">
           Create a new category
         </button>
@@ -16,6 +16,7 @@
             name: 'category.name',
             params: { id: category.id, slug: category.slug },
           }"
+          @click="this.$emit('closeTab')"
         >
           <li
             class="category"

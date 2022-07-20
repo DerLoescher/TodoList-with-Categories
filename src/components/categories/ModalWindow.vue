@@ -5,7 +5,7 @@
       <button @click="this.$emit('closeModal')" class="close_button">
         <img class="close_svg" src="../../assets/delete.svg" alt="X" />
       </button>
-      <div class="modal_form">
+      <div class="modal_form" v-if="this.categoriesList.length < 11">
         <input
           class="input_task"
           type="text"
@@ -39,6 +39,12 @@
         </form>
         <button class="send_btn" @click="addNewCategory">create</button>
       </div>
+      <div class="atten_wrapper">
+        <span class="attention_text" v-if="this.categoriesList.length > 10"
+          >The maximum number of added categories is 10. Delete one of your
+          categories to create a new one.</span
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -56,6 +62,11 @@ export default {
       emptyFields: false,
     };
   },
+  computed: {
+    categoriesList() {
+      return this.$store.state.categories;
+    },
+  },
   methods: {
     addNewCategory() {
       if (this.newCategory.name !== "" && this.newCategory.color !== "") {
@@ -67,9 +78,6 @@ export default {
           .replace(/^-+|-+$/g, "");
         this.$store.dispatch("addNewCategory", this.newCategory);
         this.$emit("closeModal");
-        this.$router.push(
-          `/${this.$store.state.categories.length + 1}/${this.newCategory.slug}`
-        );
         this.newCategory = null;
       } else {
         this.emptyFields = true;
@@ -178,6 +186,19 @@ export default {
 }
 .send_btn:active {
   border-color: white;
+}
+.atten_wrapper {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+}
+.attention_text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  font-size: 20px;
 }
 @media screen and (max-width: 770px) {
   .modal_wrapper {

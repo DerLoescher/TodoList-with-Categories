@@ -15,12 +15,12 @@
         >
           delete category
         </button>
-        <button
+        <!-- <button
           class="cat_opts_btn"
           @click="this.$store.dispatch('clearTasksInCategory', category.id)"
         >
           clear tasks
-        </button>
+        </button> -->
       </div>
     </div>
     <InputTask @newTaskHasBeenAdded="pushTaskIntoList" />

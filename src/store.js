@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import Api from "./api";
+import router from "./router";
 
 const store = createStore({
   state() {
@@ -24,6 +25,7 @@ const store = createStore({
     newCategoryWasCreated(state, response) {
       if (199 < response.status < 300) {
         state.categories.push(response.data);
+        router.push(`/${response.data.id}/${response.data.slug}`);
       }
     },
     categoryHasBeenDeleted(state, categoryId, status) {
@@ -57,11 +59,11 @@ const store = createStore({
       }
     },
 
-    tasksInCategoryCleared(state, categoryId) {
-      state.tasks = state.tasks.filter(
-        (item) => +item.categoryId !== categoryId
-      );
-    },
+    // tasksInCategoryCleared(state, categoryId) {
+    //   state.tasks = state.tasks.filter(
+    //     (item) => +item.categoryId !== categoryId
+    //   );
+    // },
   },
   actions: {
     async getCategories({ commit }) {
@@ -94,13 +96,13 @@ const store = createStore({
       commit("taskConditionChanged", await Api.changeTaskCondition(task), task);
     },
 
-    async clearTasksInCategory({ commit }, categoryId) {
-      const tasksId = this.state.tasks
-        .filter((item) => item.categoryId == categoryId)
-        .map((item) => (item = item.id));
-      await Api.clearTasksInCategory(tasksId);
-      commit("tasksInCategoryCleared", categoryId);
-    },
+    // async clearTasksInCategory({ commit }, categoryId) {
+    //   const tasksId = this.state.tasks
+    //     .filter((item) => item.categoryId == categoryId)
+    //     .map((item) => (item = item.id));
+    //   await Api.clearTasksInCategory(tasksId);
+    //   commit("tasksInCategoryCleared", categoryId);
+    // },
   },
 });
 
