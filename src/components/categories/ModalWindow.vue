@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import { cyrillicToLatinQuick } from "translit-ed";
+
 export default {
   name: "ModalWindow",
   data() {
@@ -76,6 +78,14 @@ export default {
           .replace(/[^\w\s-]/g, "")
           .replace(/[\s_-]+/g, "-")
           .replace(/^-+|-+$/g, "");
+        if (this.newCategory.slug == "") {
+          this.newCategory.slug = cyrillicToLatinQuick(this.newCategory.name)
+            .toLowerCase()
+            .trim()
+            .replace(/[^\w\s-]/g, "")
+            .replace(/[\s_-]+/g, "-")
+            .replace(/^-+|-+$/g, "");
+        }
         this.$store.dispatch("addNewCategory", this.newCategory);
         this.$emit("closeModal");
         this.newCategory = null;

@@ -5,7 +5,7 @@
         class="shadow_box"
         @click="this.$store.dispatch('changeTaskCondition', task)"
       ></div>
-      <div class="task_number">Task #{{ idx + 1 }}</div>
+      <div class="task_number">Task #{{ idx + taskPage }}</div>
       <div class="task_info">
         <input class="checkbox" type="checkbox" v-model="task.isDone" />
         <span
@@ -16,10 +16,7 @@
           class="task_name"
           >{{ task.name }}</span
         >
-        <button
-          class="delete_button"
-          @click="this.$store.dispatch('delTask', task)"
-        >
+        <button class="delete_button" @click="deleteTask(task, idx)">
           <img class="delete_svg" src="../../assets/delete.svg" alt="X" />
         </button>
       </div>
@@ -32,6 +29,21 @@ export default {
   name: "TaskList",
   props: {
     tasks: Array,
+    page: Number,
+  },
+  methods: {
+    deleteTask(task) {
+      this.$store.dispatch("delTask", task);
+
+      if (this.tasks.length % 8 == 1 && this.page > 1) {
+        this.$emit("pageDown");
+      }
+    },
+  },
+  computed: {
+    taskPage() {
+      return 1 + (this.page - 1) * 8;
+    },
   },
 };
 </script>

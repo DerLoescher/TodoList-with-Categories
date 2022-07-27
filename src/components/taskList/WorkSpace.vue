@@ -6,7 +6,7 @@
       <div class="bar3" :class="{ change_bar3: tabIsSeen }"></div>
     </div>
     <div class="category_settings">
-      <p class="category_name">{{ category.name.toUpperCase() }}</p>
+      <p class="category_name">{{ categoryName }}</p>
       <div class="opts_btns">
         <button
           class="cat_opts_btn"
@@ -24,19 +24,27 @@
       </div>
     </div>
     <InputTask @newTaskHasBeenAdded="pushTaskIntoList" />
-    <TaskList :tasks="this.selectedTasks" />
+    <TaskList
+      :tasks="this.selectedTasks"
+      :page="page"
+      @pageDown="this.pageDown"
+    />
+
     <div class="page_nav">
-      <button class="page_btn" v-if="page > 1" @click="page = +page - 1">
-        Назад
-      </button>
-      <button
-        class="page_btn"
-        :class="{ page_btn_forw: page == 1 }"
-        v-if="hasNextPage"
-        @click="page = +page + 1"
-      >
-        Вперед
-      </button>
+      <span v-if="hasNextPage || page > 1">page {{ this.page }}</span>
+      <div class="page_btns">
+        <button class="page_btn" v-if="page > 1" @click="pageDown">
+          Назад
+        </button>
+        <button
+          class="page_btn"
+          :class="{ page_btn_forw: page == 1 }"
+          v-if="hasNextPage"
+          @click="pageUp"
+        >
+          Вперед
+        </button>
+      </div>
     </div>
   </section>
 </template>
@@ -68,6 +76,12 @@ export default {
         },
         this.categoryId,
       ]);
+      if (
+        this.selectedTasks.length % 8 == 0 &&
+        this.selectedTasks.length !== 0
+      ) {
+        this.pageUp();
+      }
     },
     deleteCategory() {
       this.$store.dispatch("delCategory", this.category.id);
@@ -78,12 +92,21 @@ export default {
       this.burgerClicked = !this.burgerClicked;
       this.$emit("showCategoryTab");
     },
+    pageDown() {
+      this.page -= 1;
+    },
+    pageUp() {
+      this.page += 1;
+    },
   },
   computed: {
     category() {
       return this.$store.state.categories.find(
         (category) => category.id === this.categoryId
       );
+    },
+    categoryName() {
+      return this.category.name.toUpperCase();
     },
     startIndex() {
       return (this.page - 1) * 8;
@@ -142,14 +165,6 @@ export default {
   transform: rotate(45deg) translate(-8px, -8px);
   width: 46px;
 }
-@media screen and (max-width: 770px) {
-  .work_space {
-    min-height: 100vh;
-  }
-  .burger_button {
-    display: block;
-  }
-}
 
 .category_settings {
   display: flex;
@@ -172,18 +187,19 @@ export default {
   display: flex;
   justify-content: space-evenly;
 }
-@media screen and (max-width: 350px) {
-  .opts_btns {
-    flex-direction: column;
-    align-items: center;
-  }
-}
+
 .page_nav {
   position: relative;
-  bottom: -10px;
+  top: 2%;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.page_btns {
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  width: 120px;
 }
 .page_btn {
   border-radius: 7px;
@@ -192,7 +208,26 @@ export default {
   background-color: white;
   color: black;
 }
+.page_btn:hover,
+.page_btn:active,
+.page_btn:focus {
+  cursor: pointer;
+}
 .page_btn_forw {
   margin-left: 70px;
+}
+@media screen and (max-width: 770px) {
+  .work_space {
+    min-height: 100vh;
+  }
+  .burger_button {
+    display: block;
+  }
+}
+@media screen and (max-width: 350px) {
+  .opts_btns {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>

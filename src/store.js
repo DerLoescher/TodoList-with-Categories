@@ -70,11 +70,9 @@ const store = createStore({
       commit("setCategories", await Api.getCategories());
     },
     async addNewCategory({ commit }, newCategory) {
-      console.log(newCategory);
       commit("newCategoryWasCreated", await Api.postCategory(newCategory));
     },
     async delCategory({ commit }, categoryId) {
-      console.log(categoryId);
       commit(
         "categoryHasBeenDeleted",
         categoryId,
@@ -86,7 +84,6 @@ const store = createStore({
       commit("setTasks", await Api.getTasks());
     },
     async addNewTask({ commit }, data) {
-      console.log(data[1]);
       commit("newTaskWasCreated", await Api.postTask(data[0], data[1]));
     },
     async delTask({ commit }, task) {
