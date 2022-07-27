@@ -33,16 +33,14 @@
     <div class="page_nav">
       <span v-if="hasNextPage || page > 1">page {{ this.page }}</span>
       <div class="page_btns">
-        <button class="page_btn" v-if="page > 1" @click="pageDown">
-          Назад
-        </button>
+        <button class="page_btn" v-if="page > 1" @click="pageDown">prev</button>
         <button
           class="page_btn"
           :class="{ page_btn_forw: page == 1 }"
           v-if="hasNextPage"
           @click="pageUp"
         >
-          Вперед
+          next
         </button>
       </div>
     </div>
@@ -114,14 +112,16 @@ export default {
     endIndex() {
       return this.page * 8;
     },
-    selectedTasks() {
-      let tasks = this.$store.state.tasks.filter(
+    curCategoryTasks() {
+      return this.$store.state.tasks.filter(
         (item) => item.categoryId == this.category.id
       );
-      return tasks.slice(this.startIndex, this.endIndex);
+    },
+    selectedTasks() {
+      return this.curCategoryTasks.slice(this.startIndex, this.endIndex);
     },
     hasNextPage() {
-      return this.$store.state.tasks.length > this.endIndex;
+      return this.curCategoryTasks.length > this.endIndex;
     },
   },
 };
@@ -197,6 +197,7 @@ export default {
   align-items: center;
 }
 .page_btns {
+  margin-top: 3px;
   width: 100%;
   display: flex;
   justify-content: space-between;
